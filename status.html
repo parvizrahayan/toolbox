@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وضعیت پروژه‌ها — پرویز معین</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="description" content="وضعیت زنده‌ی همه‌ی پروژه‌ها و کارهای نیمه‌تمام.">
+<style>
+  :root{
+    --ink:#1A1A1A; --ink-soft:#5A5650; --ink-faint:#93897C;
+    --paper:#FFFFFF; --paper-2:#FAF8F3; --line:#E5DCC8;
+    --highlight:#FFE066; --green:#3E8E5A; --gray:#B8B2A2;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper); color:var(--ink); font-family:'Vazirmatn',sans-serif; line-height:1.9;}
+  .mono{font-family:'JetBrains Mono',monospace; direction:ltr;}
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px;}
+
+  header{padding:48px 0 24px; text-align:center;}
+  h1{font-size:26px; font-weight:800;}
+  p.sub{color:var(--ink-soft); font-size:14px; margin-top:10px;}
+  .updated{font-size:11.5px; color:var(--ink-faint); margin-top:14px;}
+
+  main{padding:20px 0 60px;}
+  .project{border:2px solid var(--ink); border-radius:12px; margin-bottom:22px; overflow:hidden;}
+  .project-head{padding:16px 20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;}
+  .project-name{font-size:16.5px; font-weight:700;}
+  .project-link{font-size:11.5px; color:var(--ink-soft); text-decoration:none; border-bottom:1px dotted var(--ink-soft);}
+  .progress-wrap{display:flex; align-items:center; gap:10px;}
+  .bar-track{width:90px; height:8px; background:var(--paper-2); border:1px solid var(--line); border-radius:5px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--green);}
+  .progress-num{font-size:11.5px; color:var(--ink-faint);}
+
+  .items{padding:6px 20px 16px;}
+  .item{display:flex; align-items:center; gap:10px; padding:7px 0; font-size:13.5px;}
+  .item .box{width:16px; height:16px; border:1.5px solid var(--ink); border-radius:4px; flex:none; display:flex; align-items:center; justify-content:center; font-size:11px;}
+  .item.done .box{background:var(--green); border-color:var(--green); color:#fff;}
+  .item.done span.label{color:var(--ink-faint); text-decoration:line-through;}
+  .item:not(.done) .box{background:var(--paper);}
+
+  section.pending{margin-top:8px;}
+  section.pending h2{font-size:16px; margin-bottom:12px;}
+  .pending-item{display:flex; gap:10px; padding:9px 0; border-top:1px dashed var(--line); font-size:13.5px; color:var(--ink-soft);}
+  .pending-item:first-of-type{border-top:none;}
+  .pending-item .dot{width:6px; height:6px; border-radius:50%; background:var(--highlight); border:1px solid var(--ink); margin-top:6px; flex:none;}
+
+  footer{padding:30px 0 50px; text-align:center; border-top:2px solid var(--ink); margin-top:20px;}
+  footer p{font-size:12px; color:var(--ink-faint);}
+  .dedication{font-size:13px; color:var(--ink); font-weight:700; margin-top:8px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>وضعیت پروژه‌ها</h1>
+    <p class="sub">هر بار که کاری تمام می‌شود، همین‌جا تیک می‌خورد — نیازی نیست دنبالش در چت بگردی</p>
+    <div class="updated mono" id="updatedAt"></div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap" id="projectsWrap"></div>
+
+  <section class="pending">
+    <div class="wrap">
+      <h2>کارهای بزرگ‌تر که هنوز باز است</h2>
+      <div id="pendingWrap"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>وضعیت زنده — این صفحه بعد از هر جلسه‌ی کاری به‌روز می‌شود.</p>
+    <p class="dedication">ارادتمند، پرویز معین</p>
+  </div>
+</footer>
+
+<script>
+fetch('status.json?_=' + Date.now())
+  .then(r => r.json())
+  .then(render)
+  .catch(() => {
+    document.getElementById('projectsWrap').innerHTML = '<p style="color:#93897C;font-size:13px;">بارگذاری وضعیت با خطا مواجه شد.</p>';
+  });
+
+function render(data){
+  document.getElementById('updatedAt').textContent = 'آخرین به‌روزرسانی: ' + data.updatedAt;
+
+  const pw = document.getElementById('projectsWrap');
+  pw.innerHTML = '';
+  data.projects.forEach(p => {
+    const done = p.items.filter(i => i.done).length;
+    const total = p.items.length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+
+    const card = document.createElement('div');
+    card.className = 'project';
+    card.innerHTML = `
+      <div class="project-head">
+        <div>
+          <div class="project-name">${p.name}</div>
+          ${p.url ? `<a class="project-link" href="${p.url}" target="_blank" rel="noopener">${p.url.replace('https://','')}</a>` : ''}
+        </div>
+        <div class="progress-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <div class="progress-num mono">${done}/${total}</div>
+        </div>
+      </div>
+      <div class="items">
+        ${p.items.map(i => `
+          <div class="item ${i.done ? 'done' : ''}">
+            <div class="box">${i.done ? '✓' : ''}</div>
+            <span class="label">${i.label}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    pw.appendChild(card);
+  });
+
+  const pendW = document.getElementById('pendingWrap');
+  pendW.innerHTML = data.pending.map(t => `
+    <div class="pending-item"><div class="dot"></div><div>${t}</div></div>
+  `).join('');
+}
+</script>
+
+</body>
+</html>

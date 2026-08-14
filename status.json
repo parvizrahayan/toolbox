@@ -1,0 +1,134 @@
+{
+  "updatedAt": "۱۴۰۵/۰۵/۲۳",
+  "projects": [
+    {
+      "name": "سایت اصلی (پاساژ، میز پذیرایی)",
+      "url": "https://parvizrahayan.github.io/",
+      "items": [
+        {
+          "label": "favicon",
+          "done": true
+        },
+        {
+          "label": "SEO پایه (robots.txt + sitemap.xml)",
+          "done": true
+        },
+        {
+          "label": "Open Graph + og-image",
+          "done": true
+        },
+        {
+          "label": "بدون وابستگی خارجی مشکوک (cdnjs و مثل آن)",
+          "done": true
+        },
+        {
+          "label": "publish.sh + README",
+          "done": true
+        },
+        {
+          "label": "پلاک نسخه و تاریخچه‌ی تغییرات",
+          "done": true
+        },
+        {
+          "label": "داده‌ی ساختاریافته (schema.org)",
+          "done": false
+        },
+        {
+          "label": "ثبت در Google Search Console",
+          "done": false
+        }
+      ]
+    },
+    {
+      "name": "اصول",
+      "url": "https://parvizrahayan.github.io/usul/",
+      "items": [
+        {
+          "label": "favicon",
+          "done": true
+        },
+        {
+          "label": "لوگو نهایی (نسخه‌ی تک‌رنگ + لایه‌لایه)",
+          "done": true
+        },
+        {
+          "label": "publish.sh + README",
+          "done": true
+        },
+        {
+          "label": "SEO پایه (robots.txt + sitemap.xml)",
+          "done": false
+        },
+        {
+          "label": "Open Graph + og-image",
+          "done": false
+        },
+        {
+          "label": "داده‌ی ساختاریافته (schema.org)",
+          "done": false
+        },
+        {
+          "label": "دسته‌های کدنویسی/تصویر/تحقیق",
+          "done": false
+        }
+      ]
+    },
+    {
+      "name": "برگ‌ریز",
+      "url": "https://parvizrahayan.github.io/bargrize-pdf/",
+      "items": [
+        {
+          "label": "publish.sh + README",
+          "done": true
+        },
+        {
+          "label": "favicon",
+          "done": true
+        },
+        {
+          "label": "SEO پایه (robots.txt + sitemap.xml)",
+          "done": true
+        },
+        {
+          "label": "Open Graph + og-image",
+          "done": true
+        },
+        {
+          "label": "حذف وابستگی به cdnjs (pdf.js/tesseract)",
+          "done": false
+        }
+      ]
+    },
+    {
+      "name": "واضح",
+      "url": "https://parvizrahayan.github.io/vazeh/",
+      "items": [
+        {
+          "label": "publish.sh + README",
+          "done": true
+        },
+        {
+          "label": "بدون وابستگی خارجی مشکوک",
+          "done": true
+        },
+        {
+          "label": "favicon",
+          "done": true
+        },
+        {
+          "label": "SEO پایه (robots.txt + sitemap.xml)",
+          "done": true
+        },
+        {
+          "label": "Open Graph + og-image",
+          "done": true
+        }
+      ]
+    }
+  ],
+  "pending": [
+    "ادغام عملیاتی اصول با سایت اصلی (یک پلتفرم واحد)",
+    "اضافه‌کردن یک بخش میهمان و غرفه‌ی واقعی (اولین محتوای واقعی، نه نمونه)",
+    "بررسی و تصمیم درباره‌ی مدل درآمدی پاساژ (وقتی بازدید بالا رفت)"
+  ]
+}
