@@ -31,11 +31,11 @@
         },
         {
           "label": "داده‌ی ساختاریافته (schema.org)",
-          "done": false
+          "done": true
         },
         {
           "label": "ثبت در Google Search Console",
-          "done": false
+          "done": true
         }
       ]
     },
