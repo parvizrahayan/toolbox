@@ -1,5 +1,5 @@
 {
-  "updatedAt": "۱۴۰۵/۰۵/۲۳",
+  "updatedAt": "۱۴۰۵/۰۵/۲۶",
   "projects": [
     {
       "name": "سایت اصلی (پاساژ، میز پذیرایی)",
@@ -122,6 +122,40 @@
         {
           "label": "Open Graph + og-image",
           "done": true
+        }
+      ]
+    },
+    {
+      "name": "خلاق‌یار",
+      "url": "https://parvizrahayan.github.io/khalaghyar/",
+      "items": [
+        {
+          "label": "بازسازی کامل داشبورد (index.html/app.js/style.css)",
+          "done": true
+        },
+        {
+          "label": "favicon",
+          "done": true
+        },
+        {
+          "label": "بدون وابستگی خارجی مشکوک",
+          "done": true
+        },
+        {
+          "label": "publish.sh + README",
+          "done": false
+        },
+        {
+          "label": "SEO پایه (robots.txt + sitemap.xml)",
+          "done": false
+        },
+        {
+          "label": "Open Graph + og-image",
+          "done": false
+        },
+        {
+          "label": "داده‌ی ساختاریافته (schema.org)",
+          "done": false
         }
       ]
     }
