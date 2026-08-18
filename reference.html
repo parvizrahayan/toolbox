@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مرجع فنی — جعبه‌ابزار پرویز معین</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="description" content="مرجع دستورات فنی و چک‌لیست‌های تکرارشونده‌ی اکوسیستم — گیت، GitHub CLI، انتشار و رفع اشکال.">
+<style>
+  :root{
+    --ink:#1A1A1A; --ink-soft:#5A5650; --ink-faint:#93897C;
+    --paper:#FFFFFF; --paper-2:#FAF8F3; --line:#E5DCC8;
+    --highlight:#FFE066; --green:#3E8E5A; --gray:#B8B2A2; --rust:#A8442E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper); color:var(--ink); font-family:'Vazirmatn',sans-serif; line-height:1.9;}
+  .mono{font-family:'JetBrains Mono',monospace; direction:ltr; text-align:left;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 24px;}
+
+  header{padding:44px 0 22px; text-align:center;}
+  h1{font-size:24px; font-weight:800;}
+  p.sub{color:var(--ink-soft); font-size:14px; margin-top:8px;}
+  header .back{display:inline-block; margin-top:14px; font-size:12px; color:var(--ink-soft); text-decoration:none; border-bottom:1px dotted var(--ink-soft);}
+
+  .controls{padding:18px 0; position:sticky; top:0; background:var(--paper); z-index:5; border-bottom:1px solid var(--line);}
+  input#search{
+    width:100%; padding:10px 14px; border:2px solid var(--ink); border-radius:10px;
+    font-family:'Vazirmatn',sans-serif; font-size:14px; background:var(--paper-2);
+  }
+  input#search:focus{outline:none; border-color:var(--rust);}
+  .filter-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+  .filter-row .group-label{font-size:11.5px; color:var(--ink-faint); align-self:center; margin-left:2px;}
+  .chip{
+    border:1.5px solid var(--line); background:var(--paper); color:var(--ink-soft);
+    border-radius:999px; padding:5px 12px; font-size:12.5px; cursor:pointer;
+    font-family:'Vazirmatn',sans-serif;
+  }
+  .chip.active{border-color:var(--ink); background:var(--ink); color:#fff;}
+
+  main{padding:24px 0 60px;}
+  .card{border:2px solid var(--ink); border-radius:12px; margin-bottom:16px; overflow:hidden;}
+  .card-head{padding:14px 18px 10px; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
+  .card-title{font-size:14.5px; font-weight:700;}
+  .card-desc{font-size:12.5px; color:var(--ink-soft); margin-top:4px;}
+  .tags{display:flex; gap:6px; flex-wrap:wrap;}
+  .tag{font-size:10.5px; padding:2px 8px; border-radius:999px; border:1px solid var(--line); color:var(--ink-faint); white-space:nowrap;}
+  .tag.stage{background:var(--paper-2);}
+  .tag.tool{background:#fff; border-color:var(--ink-faint);}
+
+  .code-row{
+    display:flex; align-items:stretch; border-top:1px solid var(--line); background:#F5F2EA;
+  }
+  .code-row pre{flex:1; padding:12px 16px; font-size:13px; overflow-x:auto; white-space:pre;}
+  .copy-btn{
+    flex:none; border:none; border-right:1px solid var(--line); background:var(--paper);
+    padding:0 16px; font-size:12px; cursor:pointer; color:var(--ink-soft); font-family:'Vazirmatn',sans-serif;
+  }
+  .copy-btn:hover{background:var(--paper-2); color:var(--ink);}
+  .copy-btn.copied{color:var(--green); font-weight:700;}
+
+  .empty-state{text-align:center; color:var(--ink-faint); font-size:13px; padding:40px 0; display:none;}
+
+  section.checklist{margin-top:36px; border-top:2px solid var(--ink); padding-top:22px;}
+  section.checklist h2{font-size:17px; margin-bottom:14px;}
+  .cl-item{display:flex; align-items:flex-start; gap:10px; padding:6px 0; font-size:13.5px;}
+  .cl-item .box{width:16px; height:16px; border:1.5px solid var(--ink); border-radius:4px; flex:none; margin-top:2px; display:flex; align-items:center; justify-content:center; font-size:11px; background:var(--green); border-color:var(--green); color:#fff;}
+
+  footer{padding:30px 0 50px; text-align:center; border-top:2px solid var(--ink); margin-top:10px;}
+  footer p{font-size:12px; color:var(--ink-faint);}
+  .dedication{font-size:13px; color:var(--ink); font-weight:700; margin-top:8px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>مرجع فنی</h1>
+    <p class="sub">دستورات و چک‌لیست‌های تکرارشونده‌ی اکوسیستم — یک‌جا، قابل‌جستجو، آماده‌ی کپی.</p>
+    <a class="back" href="status.html">← وضعیت پروژه‌ها</a>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="wrap">
+    <input id="search" type="text" placeholder="جست‌وجو — مثلاً push, favicon, pages…">
+    <div class="filter-row" id="stage-filters">
+      <span class="group-label">مرحله:</span>
+    </div>
+    <div class="filter-row" id="tool-filters">
+      <span class="group-label">ابزار:</span>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap" id="cards"></div>
+  <div class="empty-state" id="empty">چیزی پیدا نشد.</div>
+
+  <section class="checklist">
+    <h2>چک‌لیست پیش‌از-انتشار</h2>
+    <div class="cl-item"><div class="box">✓</div><span>favicon.svg</span></div>
+    <div class="cl-item"><div class="box">✓</div><span>تگ‌های SEO / Open Graph / Twitter</span></div>
+    <div class="cl-item"><div class="box">✓</div><span>node --check روی هر فایل JS قبل از ارسال</span></div>
+    <div class="cl-item"><div class="box">✓</div><span>خط «ارادتمند، پرویز معین» در فوتر</span></div>
+    <div class="cl-item"><div class="box">✓</div><span>publish.sh + README.md</span></div>
+    <div class="cl-item"><div class="box">✓</div><span>بج نسخه (vN) + مودال changelog</span></div>
+    <div class="cl-item"><div class="box">✓</div><span>فایل‌های نسخه‌دار موقع دریافت از Claude (v1, v2, …)</span></div>
+  </section>
+</main>
+
+<footer>
+  <p>جعبه‌ابزار — بخشی از اکوسیستم پرویز معین</p>
+  <p class="dedication">ارادتمند، پرویز معین</p>
+</footer>
+
+<script>
+const COMMANDS = [
+  {
+    title: "انتشار یا آپدیت یک پروژه",
+    desc: "دستور اصلی — چه اولین‌بار چه برای آپدیت فرقی نداره. commit می‌کنه، push می‌کنه (یا ریپو می‌سازه)، و Pages رو فعال نگه می‌داره.",
+    code: "bash publish.sh نام-پروژه",
+    stage: "انتشار", tool: "عمومی"
+  },
+  {
+    title: "رفتن به پوشه‌ی یک پروژه",
+    desc: "همه‌ی ریپوها زیر /o/dev کلون شده‌اند.",
+    code: "cd /o/dev/نام-پروژه",
+    stage: "انتشار", tool: "عمومی"
+  },
+  {
+    title: "گرفتن publish.sh برای یک پروژه‌ی جدید",
+    desc: "به‌جای کپی دستی، مستقیم از toolbox می‌گیره.",
+    code: "curl -s https://raw.githubusercontent.com/parvizrahayan/toolbox/main/publish.sh -o publish.sh",
+    stage: "راه‌اندازی", tool: "عمومی"
+  },
+  {
+    title: "وقتی push رد می‌شه (rejected)",
+    desc: "معمولاً وقتی ریپو از قبل روی گیت‌هاب چیزی داره که لوکال نداره.",
+    code: "git push -u origin main --force",
+    stage: "رفع‌اشکال", tool: "git"
+  },
+  {
+    title: "دیدن چه فایل‌هایی تغییر کرده",
+    desc: "قبل از commit دستی، برای چک سریع.",
+    code: "git status",
+    stage: "توسعه", tool: "git"
+  },
+  {
+    title: "چک سینتکس یک فایل JS",
+    desc: "همیشه قبل از ارسال/کامیت یک فایل جدید JS این را اجرا کن.",
+    code: "node --check app.js",
+    stage: "توسعه", tool: "node"
+  },
+  {
+    title: "ورود یک‌بار به GitHub CLI",
+    desc: "فقط یک‌بار روی هر دستگاه لازم است.",
+    code: "gh auth login",
+    stage: "راه‌اندازی", tool: "gh"
+  },
+  {
+    title: "دیدن یوزرنیم گیت‌هاب",
+    desc: "برای ساخت دستی URLها یا دیباگ.",
+    code: "gh api user --jq .login",
+    stage: "رفع‌اشکال", tool: "gh"
+  },
+  {
+    title: "فعال‌سازی دستی GitHub Pages",
+    desc: "اگر publish.sh نتوانست خودکار فعالش کند.",
+    code: 'gh api -X POST repos/parvizrahayan/نام-ریپو/pages -f "source[branch]=main" -f "source[path]=/"',
+    stage: "رفع‌اشکال", tool: "gh"
+  },
+  {
+    title: "ساخت دستی یک ریپوی جدید",
+    desc: "همان کاری که publish.sh خودش انجام می‌دهد، برای مواقعی که دستی لازم است.",
+    code: "gh repo create نام-ریپو --public --source=. --remote=origin --push",
+    stage: "راه‌اندازی", tool: "gh"
+  }
+];
+
+const STAGES = ["همه", "انتشار", "توسعه", "رفع‌اشکال", "راه‌اندازی"];
+const TOOLS  = ["همه", "git", "gh", "node", "عمومی"];
+
+let activeStage = "همه";
+let activeTool  = "همه";
+
+function buildFilterRow(container, list, current, onPick){
+  list.forEach(val=>{
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (val === current ? ' active' : '');
+    btn.textContent = val;
+    btn.onclick = ()=> onPick(val);
+    container.appendChild(btn);
+  });
+}
+
+function renderFilters(){
+  const stageEl = document.getElementById('stage-filters');
+  const toolEl = document.getElementById('tool-filters');
+  stageEl.querySelectorAll('.chip').forEach(c=>c.remove());
+  toolEl.querySelectorAll('.chip').forEach(c=>c.remove());
+  buildFilterRow(stageEl, STAGES, activeStage, v=>{ activeStage = v; renderFilters(); renderCards(); });
+  buildFilterRow(toolEl, TOOLS, activeTool, v=>{ activeTool = v; renderFilters(); renderCards(); });
+}
+
+function renderCards(){
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const container = document.getElementById('cards');
+  container.innerHTML = '';
+  let shown = 0;
+
+  COMMANDS.forEach(cmd=>{
+    if(activeStage !== "همه" && cmd.stage !== activeStage) return;
+    if(activeTool !== "همه" && cmd.tool !== activeTool) return;
+    const haystack = (cmd.title + ' ' + cmd.desc + ' ' + cmd.code).toLowerCase();
+    if(q && !haystack.includes(q)) return;
+
+    shown++;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-head">
+        <div>
+          <div class="card-title">${cmd.title}</div>
+          <div class="card-desc">${cmd.desc}</div>
+        </div>
+        <div class="tags">
+          <span class="tag stage">${cmd.stage}</span>
+          <span class="tag tool">${cmd.tool}</span>
+        </div>
+      </div>
+      <div class="code-row">
+        <button class="copy-btn">کپی</button>
+        <pre class="mono">${cmd.code}</pre>
+      </div>
+    `;
+    const btn = card.querySelector('.copy-btn');
+    btn.onclick = ()=>{
+      navigator.clipboard.writeText(cmd.code).then(()=>{
+        btn.textContent = 'کپی شد ✓';
+        btn.classList.add('copied');
+        setTimeout(()=>{ btn.textContent = 'کپی'; btn.classList.remove('copied'); }, 1500);
+      });
+    };
+    container.appendChild(card);
+  });
+
+  document.getElementById('empty').style.display = shown === 0 ? 'block' : 'none';
+}
+
+document.getElementById('search').addEventListener('input', renderCards);
+renderFilters();
+renderCards();
+</script>
+
+</body>
+</html>
